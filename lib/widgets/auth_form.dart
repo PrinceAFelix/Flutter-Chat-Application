@@ -38,6 +38,26 @@ class _AuthFormState extends State<AuthForm> {
       buttonW = 200.0;
     }
 
+    final _formkey = GlobalKey<FormState>();
+    final TextEditingController _userEmailController = TextEditingController();
+    final TextEditingController _userPasswordController = TextEditingController();
+    final TextEditingController _userNameController = TextEditingController();
+ 
+
+
+    void _sbmtPress(){
+      //FocusScope.of(context).unfocus();
+      final isValid = _formkey.currentState!.validate();
+      if(isValid){
+        _formkey.currentState!.save();
+        print(_userEmailController.text);
+        print(_userPasswordController.text);
+        print(_userNameController.text);
+      }
+      
+
+    }
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -62,6 +82,7 @@ class _AuthFormState extends State<AuthForm> {
                 ),
                 const SizedBox(height: 20,),
                 Form(
+                  key: _formkey,
                   child: Container(
                     width: MediaQuery.of(context).size.width * 0.7,
                     child: Column(
@@ -72,6 +93,16 @@ class _AuthFormState extends State<AuthForm> {
                           child: Padding(
                             padding: const EdgeInsets.only(bottom: 5.0),
                             child: TextFormField(
+                              validator: (value) {
+                                if(value!.isEmpty || value.length < 4) {
+                                  return 'Please enter at least 4 characters';
+                                }
+                                return null;
+                              },
+                              controller: _userNameController,
+                              onSaved: (value) {
+                                _userNameController.text = value!;
+                              },
                               keyboardType: TextInputType.text,
                               style: TextStyle(color: Colors.black, fontSize: 14),
                               decoration: InputDecoration(
@@ -90,8 +121,18 @@ class _AuthFormState extends State<AuthForm> {
                           child: Padding(
                             padding: const EdgeInsets.only(bottom: 5.0),
                             child: TextFormField(
+                              validator: (value){
+                                if(value!.isEmpty|| !value.contains('@')){
+                                  return 'Please enter a valid email address';
+                                }
+                                return null;
+                              },
+                              controller: _userEmailController,
+                              onSaved: (value) {
+                                _userEmailController.text = value!;
+                              },
                               keyboardType: TextInputType.emailAddress,
-                               style: TextStyle(color: Colors.black, fontSize: 14),
+                              style: TextStyle(color: Colors.black, fontSize: 14),
                               decoration: InputDecoration(
                                 hintText: "Email",
                                 contentPadding: const EdgeInsets.all(15.0),
@@ -108,6 +149,16 @@ class _AuthFormState extends State<AuthForm> {
                           child: Padding(
                             padding: const EdgeInsets.only(bottom: 5.0),
                             child: TextFormField(
+                              validator: (String? value) {
+                                if(value!.isEmpty || value.length < 7){
+                                  return 'Password must be at least 7 characters long';
+                                }
+                                return null;
+                              },
+                              controller: _userPasswordController,
+                              onSaved: (value) {
+                                _userPasswordController.text = value!;
+                              },
                               obscureText: true,
                               style: TextStyle(color: Colors.black, fontSize: 14),
                               decoration: InputDecoration(
@@ -128,7 +179,7 @@ class _AuthFormState extends State<AuthForm> {
                             height: buttonH,
                             child: MaterialButton(
                               elevation: 0,
-                              onPressed: (){},
+                              onPressed: _sbmtPress,
                               color: Color.fromRGBO(255, 255, 0, 100),
                               child: Text("Sign up", style: TextStyle(color:  Colors.black, fontSize: 13),),
                               shape: RoundedRectangleBorder(

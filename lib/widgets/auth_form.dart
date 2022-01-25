@@ -7,11 +7,10 @@ class AuthForm extends StatefulWidget {
 }
 
 class _AuthFormState extends State<AuthForm> {
-
+    var _isLogin = false;
   
   @override
   Widget build(BuildContext context) {
-
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
@@ -33,7 +32,12 @@ class _AuthFormState extends State<AuthForm> {
     }else if(screenHeight <= 926 && screenHeight >= 896 && screenWidth <= 428 && screenWidth >= 414){ //Max and Pro Max
       logoHW = 0.41;
       textfieldH = 60;
-      whiteSpace = 0.13;
+      if(!_isLogin){
+        whiteSpace = 0.19;
+      }else{
+        whiteSpace = 0.12;
+      }
+      
       buttonH = 45.0;
       buttonW = 200.0;
     }
@@ -43,7 +47,6 @@ class _AuthFormState extends State<AuthForm> {
     final TextEditingController _userPasswordController = TextEditingController();
     final TextEditingController _userNameController = TextEditingController();
  
-
 
     void _sbmtPress(){
       //FocusScope.of(context).unfocus();
@@ -88,11 +91,13 @@ class _AuthFormState extends State<AuthForm> {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
+                        if(_isLogin)
                         Container(
                           height: textfieldH,
                           child: Padding(
                             padding: const EdgeInsets.only(bottom: 5.0),
                             child: TextFormField(
+                              key: const ValueKey("username"),
                               validator: (value) {
                                 if(value!.isEmpty || value.length < 4) {
                                   return 'Please enter at least 4 characters';
@@ -121,6 +126,7 @@ class _AuthFormState extends State<AuthForm> {
                           child: Padding(
                             padding: const EdgeInsets.only(bottom: 5.0),
                             child: TextFormField(
+                              key: const ValueKey("email"),
                               validator: (value){
                                 if(value!.isEmpty|| !value.contains('@')){
                                   return 'Please enter a valid email address';
@@ -149,6 +155,7 @@ class _AuthFormState extends State<AuthForm> {
                           child: Padding(
                             padding: const EdgeInsets.only(bottom: 5.0),
                             child: TextFormField(
+                              key: const ValueKey("password"),
                               validator: (String? value) {
                                 if(value!.isEmpty || value.length < 7){
                                   return 'Password must be at least 7 characters long';
@@ -181,7 +188,7 @@ class _AuthFormState extends State<AuthForm> {
                               elevation: 0,
                               onPressed: _sbmtPress,
                               color: Color.fromRGBO(255, 255, 0, 100),
-                              child: Text("Sign up", style: TextStyle(color:  Colors.black, fontSize: 13),),
+                              child: Text(_isLogin ? "Sign up" : "Login", style: TextStyle(color:  Colors.black, fontSize: 13),),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20),
                                 side: BorderSide(color: Color.fromRGBO(255, 255, 0, 0.5)),
@@ -190,7 +197,7 @@ class _AuthFormState extends State<AuthForm> {
                           ),
                         ),
                         SizedBox(height: MediaQuery.of(context).size.height * whiteSpace),
-                        Text("Already have an account", style: TextStyle(fontSize: 12),),
+                        Text(_isLogin ? "Already have an account?" : "Don't have an account?", style: TextStyle(fontSize: 12),),
                         SizedBox(height: 10,),
                         Padding(
                           padding: EdgeInsets.only(bottom: 10.0),
@@ -199,9 +206,13 @@ class _AuthFormState extends State<AuthForm> {
                             height: 45,
                             child: MaterialButton(
                               elevation: 0,
-                              onPressed: () {},
+                              onPressed: () {
+                                setState(() {
+                                  _isLogin = !_isLogin;
+                                });
+                              },
                               color: Color.fromRGBO(255, 255, 0, 0.5),
-                              child: Text("Login", style: TextStyle(color: Colors.black, fontSize: 18),),
+                              child: Text(_isLogin ? "Login" : "Sign up", style: TextStyle(color: Colors.black, fontSize: 18),),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10.0),
                                 side: BorderSide(color: Color.fromRGBO(255, 255, 0, 100)),

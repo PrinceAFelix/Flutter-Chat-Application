@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
 
 class AuthForm extends StatefulWidget {
+  AuthForm(this._sbmtForm);
 
+  final void Function(
+    String email,
+    String password,
+    String username,
+    bool isLogin,
+    BuildContext ctx,
+  ) _sbmtForm;
   @override
   _AuthFormState createState() => _AuthFormState();
 }
 
 class _AuthFormState extends State<AuthForm> {
-    var _isLogin = false;
+    var _isLogin = true;
   
   @override
   Widget build(BuildContext context) {
@@ -32,7 +40,7 @@ class _AuthFormState extends State<AuthForm> {
     }else if(screenHeight <= 926 && screenHeight >= 896 && screenWidth <= 428 && screenWidth >= 414){ //Max and Pro Max
       logoHW = 0.41;
       textfieldH = 60;
-      if(!_isLogin){
+      if(_isLogin){
         whiteSpace = 0.19;
       }else{
         whiteSpace = 0.12;
@@ -53,9 +61,13 @@ class _AuthFormState extends State<AuthForm> {
       final isValid = _formkey.currentState!.validate();
       if(isValid){
         _formkey.currentState!.save();
-        print(_userEmailController.text);
-        print(_userPasswordController.text);
-        print(_userNameController.text);
+        widget._sbmtForm(
+          _userEmailController.text.trim(),
+          _userPasswordController.text.trim(),
+          _userNameController.text.trim(),
+          _isLogin,
+          context,
+        );
       }
       
 
@@ -91,7 +103,7 @@ class _AuthFormState extends State<AuthForm> {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        if(_isLogin)
+                        if(!_isLogin)
                         Container(
                           height: textfieldH,
                           child: Padding(
@@ -188,7 +200,7 @@ class _AuthFormState extends State<AuthForm> {
                               elevation: 0,
                               onPressed: _sbmtPress,
                               color: Color.fromRGBO(255, 255, 0, 100),
-                              child: Text(_isLogin ? "Sign up" : "Login", style: TextStyle(color:  Colors.black, fontSize: 13),),
+                              child: Text(_isLogin ?  "Login" : "Sign up", style: TextStyle(color:  Colors.black, fontSize: 13),),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20),
                                 side: BorderSide(color: Color.fromRGBO(255, 255, 0, 0.5)),
@@ -197,7 +209,7 @@ class _AuthFormState extends State<AuthForm> {
                           ),
                         ),
                         SizedBox(height: MediaQuery.of(context).size.height * whiteSpace),
-                        Text(_isLogin ? "Already have an account?" : "Don't have an account?", style: TextStyle(fontSize: 12),),
+                        Text(_isLogin ? "Don't have an account?" :"Already have an account?", style: TextStyle(fontSize: 12),),
                         SizedBox(height: 10,),
                         Padding(
                           padding: EdgeInsets.only(bottom: 10.0),
@@ -212,7 +224,7 @@ class _AuthFormState extends State<AuthForm> {
                                 });
                               },
                               color: Color.fromRGBO(255, 255, 0, 0.5),
-                              child: Text(_isLogin ? "Login" : "Sign up", style: TextStyle(color: Colors.black, fontSize: 18),),
+                              child: Text(_isLogin ? "Sign up" : "Login", style: TextStyle(color: Colors.black, fontSize: 18),),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10.0),
                                 side: BorderSide(color: Color.fromRGBO(255, 255, 0, 100)),

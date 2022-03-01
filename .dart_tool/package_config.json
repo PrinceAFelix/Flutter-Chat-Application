@@ -2,6 +2,12 @@
   "configVersion": 2,
   "packages": [
     {
+      "name": "animate_do",
+      "rootUri": "file:///Users/prince/Desktop/Flutter/flutter/.pub-cache/hosted/pub.dartlang.org/animate_do-2.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "async",
       "rootUri": "file:///Users/prince/Desktop/Flutter/flutter/.pub-cache/hosted/pub.dartlang.org/async-2.8.2",
       "packageUri": "lib/",
@@ -52,6 +58,12 @@
     {
       "name": "collection",
       "rootUri": "file:///Users/prince/Desktop/Flutter/flutter/.pub-cache/hosted/pub.dartlang.org/collection-1.15.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "crypto",
+      "rootUri": "file:///Users/prince/Desktop/Flutter/flutter/.pub-cache/hosted/pub.dartlang.org/crypto-3.0.1",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -122,6 +134,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "flutter_verification_code",
+      "rootUri": "file:///Users/prince/Desktop/Flutter/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_verification_code-1.1.2+1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "flutter_web_plugins",
       "rootUri": "file:///Users/prince/Desktop/Flutter/flutter/packages/flutter_web_plugins",
       "packageUri": "lib/",
@@ -136,6 +154,12 @@
     {
       "name": "intl",
       "rootUri": "file:///Users/prince/Desktop/Flutter/flutter/.pub-cache/hosted/pub.dartlang.org/intl-0.17.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "intl_phone_field",
+      "rootUri": "file:///Users/prince/Desktop/Flutter/flutter/.pub-cache/hosted/pub.dartlang.org/intl_phone_field-3.0.1",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -160,6 +184,12 @@
     {
       "name": "meta",
       "rootUri": "file:///Users/prince/Desktop/Flutter/flutter/.pub-cache/hosted/pub.dartlang.org/meta-1.7.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "page_transition",
+      "rootUri": "file:///Users/prince/Desktop/Flutter/flutter/.pub-cache/hosted/pub.dartlang.org/page_transition-2.0.5",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -194,6 +224,18 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "sqflite",
+      "rootUri": "file:///Users/prince/Desktop/Flutter/flutter/.pub-cache/hosted/pub.dartlang.org/sqflite-2.0.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "sqflite_common",
+      "rootUri": "file:///Users/prince/Desktop/Flutter/flutter/.pub-cache/hosted/pub.dartlang.org/sqflite_common-2.2.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.15"
+    },
+    {
       "name": "stack_trace",
       "rootUri": "file:///Users/prince/Desktop/Flutter/flutter/.pub-cache/hosted/pub.dartlang.org/stack_trace-1.10.0",
       "packageUri": "lib/",
@@ -208,6 +250,12 @@
     {
       "name": "string_scanner",
       "rootUri": "file:///Users/prince/Desktop/Flutter/flutter/.pub-cache/hosted/pub.dartlang.org/string_scanner-1.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "synchronized",
+      "rootUri": "file:///Users/prince/Desktop/Flutter/flutter/.pub-cache/hosted/pub.dartlang.org/synchronized-3.0.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -230,6 +278,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "uuid",
+      "rootUri": "file:///Users/prince/Desktop/Flutter/flutter/.pub-cache/hosted/pub.dartlang.org/uuid-3.0.6",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "vector_math",
       "rootUri": "file:///Users/prince/Desktop/Flutter/flutter/.pub-cache/hosted/pub.dartlang.org/vector_math-2.1.1",
       "packageUri": "lib/",
@@ -242,7 +296,7 @@
       "languageVersion": "2.15"
     }
   ],
-  "generated": "2022-01-26T04:25:58.773027Z",
+  "generated": "2022-02-25T17:00:00.941701Z",
   "generator": "pub",
   "generatorVersion": "2.15.1"
 }

@@ -1,7 +1,9 @@
+import 'package:chat_app/services/database.dart';
 import 'package:chat_app/widgets/auth_form.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Authentication extends StatefulWidget {
   
@@ -10,63 +12,46 @@ class Authentication extends StatefulWidget {
 }
 
 class _AuthenticationState extends State<Authentication> {
-  final _auth = FirebaseAuth.instance;
-  void _sbmtForm(
+  var _proccessingAuth = false;
+  Service service = Service();
+
+  // Service service = new Service(email, password, username, ctx);
+  Future _sbmtForm(
     String email,
     String password,
     String username,
     bool isLogin,
     BuildContext ctx,
   ) async {
-    UserCredential userCredential;
-
-    print("works");
     
     try{
+      setState(() {
+        _proccessingAuth = true;
+      });
       if(isLogin){
-        userCredential = await _auth.signInWithEmailAndPassword(email: email, password: password);
+        service.loginUser(ctx, email, password, username);
       }else {
-        userCredential = await _auth.createUserWithEmailAndPassword(email: email, password: password);
+        service.signupUser(ctx, email, password, username);
       }
-    } on PlatformException catch(pe){
-      var outputMessage = 'An error occured while processing the request, please check your credentials';
 
-      if(pe.message != null){
-        outputMessage = pe.message!;
-      }
-      Scaffold.of(ctx).showSnackBar(
-        SnackBar(
-          content: Text(outputMessage),
-          backgroundColor: Colors.red,
-        )
-      );
-     } on Exception catch (e){
-
+     } on FirebaseException catch (fe){
+       service.showErrorMessage(ctx, fe);
+       setState(() {
+         _proccessingAuth = false;
+       });
+     
+     } catch (e){
+       service.showErrorMessage(ctx, e);
+       setState(() {
+         _proccessingAuth = false;
+       });
     }
     
   }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      //   appBar: PreferredSize(
-      //   preferredSize: Size.fromHeight(10),
-      //   child: AppBar(
-      //     elevation: 0,
-      //     centerTitle: true,
-      //     flexibleSpace: Container(
-      //     margin: EdgeInsets.only(top: 5),
-      //     decoration: BoxDecoration(
-      //       image: DecorationImage(
-      //         image: AssetImage("assets/images/logo.png"),
-      //         fit: BoxFit.cover,
-      //       )
-      //     )
-      //   ),
-      //   backgroundColor: Colors.transparent
-      //   ),
-      // ),
-      
-      body: AuthForm(_sbmtForm),
+    return Scaffold( 
+      body: AuthForm(_sbmtForm, _proccessingAuth),
     );
   }
 }

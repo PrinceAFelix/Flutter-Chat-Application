@@ -1,8 +1,15 @@
+import 'package:chat_app/screens/phoneAuth_screen.dart';
+import 'package:chat_app/widgets/logo.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
+
 
 class AuthForm extends StatefulWidget {
-  AuthForm(this._sbmtForm);
+  AuthForm(this._sbmtForm, this.proccessingAuth);
 
+  
+
+  bool proccessingAuth;
   final void Function(
     String email,
     String password,
@@ -19,42 +26,54 @@ class _AuthFormState extends State<AuthForm> {
   
   @override
   Widget build(BuildContext context) {
+
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
-    double logoHW = 0.0, textfieldH = 0.0, buttonH = 0.0, buttonW = 0.0, whiteSpace = 0.0;
+    double textfieldH = 0.0, signBtnH = 0.0, signBtnW = 0.0, logCreateBtnH = 0.0, logCreateBtnW = 0.0,whiteSpace = 0.0;    
     
-    //To Create Responsive application
-    if(screenHeight <= 736 && screenHeight >= 667 && screenWidth <= 414 && screenWidth >= 375){ //Normal iPhone
-      logoHW = 0.46;
-      textfieldH = 45;
-      whiteSpace = 0.05;
-      buttonH = 30.0;
-      buttonW = 170.0;
-    }else if(screenHeight <= 844 && screenHeight >= 812 && screenWidth <= 428 && screenWidth >= 375){ //Pro iPhone
-      logoHW = 0.41;
-      textfieldH = 50;
-      whiteSpace = 0.10;
-      buttonH = 40.0;
-      buttonW = 170.0;
-    }else if(screenHeight <= 926 && screenHeight >= 896 && screenWidth <= 428 && screenWidth >= 414){ //Max and Pro Max
-      logoHW = 0.41;
-      textfieldH = 60;
-      if(_isLogin){
-        whiteSpace = 0.19;
-      }else{
-        whiteSpace = 0.12;
-      }
-      
-      buttonH = 45.0;
-      buttonW = 200.0;
-    }
-
+    
     final _formkey = GlobalKey<FormState>();
     final TextEditingController _userEmailController = TextEditingController();
     final TextEditingController _userPasswordController = TextEditingController();
     final TextEditingController _userNameController = TextEditingController();
- 
+
+    logCreateBtnW = 250.0;
+    textfieldH = 45;
+    signBtnH = 30.0;
+    signBtnW = 170.0;
+
+    //To Create Responsive application
+    if(screenHeight == 568 && screenWidth == 320){ //Iphone 5C, 5S, 5 - Ipod Touch 5, 6, 7
+      logCreateBtnH = 20.0;
+      _isLogin ? whiteSpace = 0.08 : whiteSpace = 0.0;
+    }else if(screenHeight == 667 && screenWidth == 375){ //Iphone 8, 7, 6s, 6, SE
+      logCreateBtnH = 45.0;
+      _isLogin ? whiteSpace = 0 : whiteSpace = 0;
+    }else if(screenHeight == 812 && screenWidth == 375){ //Iphone 13 mini, 12 mini, 11 pro, XS, X
+      logCreateBtnH = 45.0;
+      _isLogin ? whiteSpace = 0.10 : whiteSpace = 0.04;
+    }else if(screenHeight == 844 && screenWidth == 390){ //Iphpne 13, 13 Pro, 12, 12 Pro
+      logCreateBtnH = 45.0;
+      _isLogin ? whiteSpace = 0.185 : whiteSpace = 0.13;
+    }else if(screenHeight == 736 && screenWidth == 414){ //Iphone 8 Plus
+      logCreateBtnH = 45.0;
+      _isLogin ? whiteSpace = 0.05 : whiteSpace = 0;
+    }else if(screenHeight == 896 && screenWidth == 414){ //Iphone 11 Pro Max, 11, XR, XS Max
+      logCreateBtnH = 45.0;
+      _isLogin ? whiteSpace = 0.19 : whiteSpace = 0.14;
+    }else if(screenHeight == 926 && screenWidth == 428){ //Iphone 13 Pro Max, 12 Pro Max
+      logCreateBtnH = 45.0;
+      _isLogin ? whiteSpace = 0.15 : whiteSpace = 0.10;
+    }
+    //Not Tested Yet
+    else if(screenHeight == 847 && screenWidth == 476){ //Iphone 7 Plus, 6S Plus, 6Plus
+      logCreateBtnH = 45.0;
+      _isLogin ? whiteSpace = 0.19 : whiteSpace = 0.14;
+    }
+   
+
+    ScreenLogo sl = ScreenLogo(screenWidth, screenHeight, false);
 
     void _sbmtPress(){
       //FocusScope.of(context).unfocus();
@@ -81,21 +100,8 @@ class _AuthFormState extends State<AuthForm> {
             padding: const EdgeInsets.all(10.0),
             child: Column(
               children: [
-                Container(
-                  height: MediaQuery.of(context).size.height * logoHW,
-                  child: Stack(
-                    children: [
-                      Positioned(
-                        top: 0,
-                        left: -30,
-                        right: -30,
-                        bottom: 0,
-                        child: Image.asset("assets/images/logo.png"),
-                      )
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 20,),
+                sl.logoImage(context),
+                const SizedBox(height: 10,),
                 Form(
                   key: _formkey,
                   child: Container(
@@ -133,6 +139,7 @@ class _AuthFormState extends State<AuthForm> {
                             ),
                           ),
                         ),
+                        SizedBox(height: 10.0,),
                         Container(
                           height: textfieldH,
                           child: Padding(
@@ -162,6 +169,7 @@ class _AuthFormState extends State<AuthForm> {
                             ),
                           ),
                         ),
+                        SizedBox(height: 10.0,),
                         Container(
                           height: textfieldH,
                           child: Padding(
@@ -191,31 +199,53 @@ class _AuthFormState extends State<AuthForm> {
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(bottom: 10.0),
-                          child: ButtonTheme(
-                            minWidth: buttonW,
-                            height: buttonH,
-                            child: MaterialButton(
-                              elevation: 0,
-                              onPressed: _sbmtPress,
-                              color: Color.fromRGBO(255, 255, 0, 100),
-                              child: Text(_isLogin ?  "Login" : "Sign up", style: TextStyle(color:  Colors.black, fontSize: 13),),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
-                                side: BorderSide(color: Color.fromRGBO(255, 255, 0, 0.5)),
+                        if(widget.proccessingAuth) 
+                          Padding(
+                            padding: EdgeInsets.only(bottom: 10.0),
+                            child: ButtonTheme(
+                              minWidth: signBtnW,
+                              height: signBtnH,
+                              child: CircularProgressIndicator(),
+                            ),
+                          ),
+                        if(!widget.proccessingAuth)
+                          Padding(
+                            padding: EdgeInsets.only(bottom: 10.0),
+                            child: ButtonTheme(
+                              minWidth: signBtnW,
+                              height: signBtnH,
+                              child: MaterialButton(
+                                elevation: 0,
+                                onPressed: _sbmtPress,
+                                color: Theme.of(context).colorScheme.primary,
+                                child: Text(_isLogin ?  "Login" : "Sign up", style: TextStyle(color:  Colors.white, fontSize: 13),),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                  side: BorderSide(color: Color.fromRGBO(255, 255, 0, 0.5)),
+                                ),
                               ),
                             ),
                           ),
-                        ),
                         SizedBox(height: MediaQuery.of(context).size.height * whiteSpace),
-                        Text(_isLogin ? "Don't have an account?" :"Already have an account?", style: TextStyle(fontSize: 12),),
-                        SizedBox(height: 10,),
+                        TextButton(onPressed: () {
+                          Navigator.push(
+                            context,
+                            PageTransition(
+                              curve: Curves.linear,
+                              type: PageTransitionType.fade,
+                              child: PhoneAuth(),
+                            ),
+                          );
+                        }, 
+                          child: Text("Go Bluetooth Mode", style: TextStyle(fontSize: 15),),
+                        ),
+                        Text(_isLogin ? "OR\nDon't have an account?" :"OR\nAlready have an account?", style: TextStyle(fontSize: 12), textAlign: TextAlign.center,),
+                        SizedBox(height: 5,),
                         Padding(
                           padding: EdgeInsets.only(bottom: 10.0),
                           child: ButtonTheme(
-                            minWidth: 250,
-                            height: 45,
+                            minWidth: logCreateBtnW,
+                            height: logCreateBtnH,
                             child: MaterialButton(
                               elevation: 0,
                               onPressed: () {
@@ -223,7 +253,7 @@ class _AuthFormState extends State<AuthForm> {
                                   _isLogin = !_isLogin;
                                 });
                               },
-                              color: Color.fromRGBO(255, 255, 0, 0.5),
+                              color: Theme.of(context).colorScheme.primary.withOpacity(0.5),
                               child: Text(_isLogin ? "Sign up" : "Login", style: TextStyle(color: Colors.black, fontSize: 18),),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10.0),

@@ -35,10 +35,24 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>{YOUR_DESCRIPTION}</string>
+	<key>NSBonjourServices</key>
+	<array>
+		<string>_{YOUR_SERVICE_TYPE}._tcp</string>
+	</array>
+	<key>NSCameraUsageDescription</key>
+	<string>Allow permission to let you use camera</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Allow permission to let you use microphone</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Allow permission to let you pick an image</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
+	<key>UIRequiresPersistentWiFi</key>
+	<true/>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

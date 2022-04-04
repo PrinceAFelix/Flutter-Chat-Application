@@ -31,8 +31,8 @@ class _ChatDetailsState extends State<ChatDetails> {
 
   @override
   void initState() {
-    setState(() {});
     super.initState();
+    setState(() {});
     chats
         .where('users', isEqualTo: {widget.toUid: null, currentUid: null})
         .limit(1)
@@ -45,11 +45,7 @@ class _ChatDetailsState extends State<ChatDetails> {
           } else {
             chats.add({
               'users': {currentUid: null, widget.toUid: null}
-            }).then((value) => {
-                  setState(() {
-                    chatId = value;
-                  })
-                });
+            }).then((value) => {chatId = value});
           }
         })
         .catchError((e) {});
@@ -206,7 +202,7 @@ class _ChatDetailsState extends State<ChatDetails> {
                               color: Theme.of(context).primaryColor,
                             ),
                             onPressed: () {
-                              _sendMessage(_messageController.text);
+                              _sendMessage(_messageController.text, chatId);
                             },
                           )
                         ],
@@ -225,14 +221,12 @@ class _ChatDetailsState extends State<ChatDetails> {
     );
   }
 
-  void _sendMessage(String msg) {
+  void _sendMessage(String msg, id) {
     FocusScope.of(context).unfocus();
     if (msg == '') {
       return;
     }
-    ;
-
-    chats.doc(chatId).collection('messages').add({
+    chats.doc(id).collection('messages').add({
       'sentOn': FieldValue.serverTimestamp(),
       'uid': currentUid,
       'message': msg,
@@ -245,6 +239,5 @@ class _ChatDetailsState extends State<ChatDetails> {
 
   bool isSender(String current) {
     return current == currentUid;
-    setState(() {});
   }
 }

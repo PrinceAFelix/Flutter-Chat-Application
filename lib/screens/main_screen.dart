@@ -21,7 +21,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   var currentUser = FirebaseAuth.instance.currentUser!.email;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   String defaultProfile =
-      "https://firebasestorage.googleapis.com/v0/b/chat-app---eng4003-37561.appspot.com/o/images%2FdefaultProfilePicture.png?alt=media&token=b398791c-2351-45c5-a850-ebaaccd11c48";
+      "https://firebasestorage.googleapis.com/v0/b/chat-app---eng4003-37561.appspot.com/o/images%2FdefaultProfilePicture.png?alt=media&token=6b2d1c22-3de0-4a3a-a1ec-5ed1224604de";
   var url = '';
 
   @override
@@ -229,60 +229,85 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                                             alignment: Alignment
                                                                 .centerLeft,
                                                             child: Row(
-                                                              children: [
-                                                                StreamBuilder(
-                                                                  stream: FirebaseFirestore
-                                                                      .instance
-                                                                      .collection(
-                                                                          "emailusers")
-                                                                      .where(
-                                                                          'email',
-                                                                          isNotEqualTo:
-                                                                              currentUser)
-                                                                      .snapshots(),
-                                                                  builder: (context,
-                                                                      snbapshot) {
-                                                                    if (snapshot
-                                                                        .hasData) {
-                                                                      url = (snapshot.data!
-                                                                              as dynamic)
-                                                                          .docs[index]["imageUrl"];
-                                                                    }
-                                                                    if (url ==
-                                                                        "") {
-                                                                      url =
-                                                                          defaultProfile;
-                                                                    }
-
-                                                                    return AppRoundImage.url(
-                                                                        url,
-                                                                        height:
-                                                                            60,
-                                                                        width:
-                                                                            60);
-                                                                  },
-                                                                ),
-                                                                Padding(
-                                                                  padding: const EdgeInsets
-                                                                          .only(
-                                                                      left: 15),
-                                                                  child: Text(
-                                                                    (snapshot.data!
+                                                                children: [
+                                                                  StreamBuilder(
+                                                                    stream: FirebaseFirestore
+                                                                        .instance
+                                                                        .collection(
+                                                                            "emailusers")
+                                                                        .where(
+                                                                            'email',
+                                                                            isNotEqualTo:
+                                                                                currentUser)
+                                                                        .snapshots(),
+                                                                    builder:
+                                                                        (context,
+                                                                            snbapshot) {
+                                                                      if (snapshot
+                                                                          .hasData) {
+                                                                        url = (snapshot.data!
                                                                                 as dynamic)
-                                                                            .docs[index]
-                                                                        [
-                                                                        "username"],
-                                                                    style:
-                                                                        const TextStyle(
-                                                                      color: Colors
-                                                                          .black,
-                                                                      fontSize:
-                                                                          18,
+                                                                            .docs[index]["imageUrl"];
+                                                                      } else {
+                                                                        setState(
+                                                                            () {
+                                                                          isMessage =
+                                                                              false;
+                                                                        });
+                                                                      }
+                                                                      if (url ==
+                                                                          "") {
+                                                                        url =
+                                                                            defaultProfile;
+                                                                      }
+
+                                                                      return AppRoundImage.url(
+                                                                          url,
+                                                                          height:
+                                                                              60,
+                                                                          width:
+                                                                              60);
+                                                                    },
+                                                                  ),
+                                                                  Padding(
+                                                                    padding: const EdgeInsets
+                                                                            .only(
+                                                                        left:
+                                                                            15),
+                                                                    child: Text(
+                                                                      (snapshot.data!
+                                                                              as dynamic)
+                                                                          .docs[index]["username"],
+                                                                      style:
+                                                                          const TextStyle(
+                                                                        color: Colors
+                                                                            .black,
+                                                                        fontSize:
+                                                                            18,
+                                                                      ),
                                                                     ),
                                                                   ),
-                                                                ),
-                                                              ],
-                                                            ),
+                                                                  const SizedBox(
+                                                                    width: 200,
+                                                                  ),
+                                                                  _currentIndex ==
+                                                                          1
+                                                                      ? Container(
+                                                                          width:
+                                                                              15,
+                                                                          height:
+                                                                              15,
+                                                                          decoration:
+                                                                              const BoxDecoration(
+                                                                            shape:
+                                                                                BoxShape.circle,
+                                                                            color:
+                                                                                Colors.green,
+                                                                          ),
+                                                                        )
+                                                                      : const Text(
+                                                                          ""),
+                                                                ]),
                                                           ),
                                                           shape:
                                                               RoundedRectangleBorder(

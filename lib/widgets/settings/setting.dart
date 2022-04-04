@@ -1,3 +1,5 @@
+// ignore_for_file: unrelated_type_equality_checks
+
 import 'package:chat_app/widgets/page/settings/account_page.dart';
 import 'package:chat_app/widgets/page/settings/notifications_page.dart';
 import 'package:chat_app/screens/main_screen.dart';
@@ -30,6 +32,12 @@ class _SettingsState extends State<Settings> {
   final TextEditingController _lastnameController = TextEditingController();
   final TextEditingController _subjectController = TextEditingController();
   final TextEditingController _messageController = TextEditingController();
+
+  var first = 0.0;
+  var second = 0.0;
+  var third = 0.0;
+  var fourth = 0.0;
+  var fifth = 0.0;
 
   @override
   Widget build(BuildContext context) {
@@ -214,9 +222,9 @@ class _SettingsState extends State<Settings> {
                                   const SizedBox(
                                     height: 30,
                                   ),
-                                  Text("Was the app responsive"),
+                                  const Text("Was the app responsive"),
                                   RatingBar.builder(
-                                    initialRating: 5,
+                                    initialRating: 0,
                                     minRating: 1,
                                     direction: Axis.horizontal,
                                     allowHalfRating: true,
@@ -227,14 +235,16 @@ class _SettingsState extends State<Settings> {
                                       Icons.star,
                                       color: Colors.amber,
                                     ),
-                                    onRatingUpdate: (rating) {},
+                                    onRatingUpdate: (rating) {
+                                      first = rating;
+                                    },
                                   ),
                                   const SizedBox(
                                     height: 20,
                                   ),
                                   const Text("How well was messages online"),
                                   RatingBar.builder(
-                                    initialRating: 5,
+                                    initialRating: 0,
                                     minRating: 1,
                                     direction: Axis.horizontal,
                                     allowHalfRating: true,
@@ -245,14 +255,16 @@ class _SettingsState extends State<Settings> {
                                       Icons.star,
                                       color: Colors.amber,
                                     ),
-                                    onRatingUpdate: (rating) {},
+                                    onRatingUpdate: (rating) {
+                                      second = rating;
+                                    },
                                   ),
                                   const SizedBox(
                                     height: 20,
                                   ),
                                   const Text("How well was messages offline"),
                                   RatingBar.builder(
-                                    initialRating: 5,
+                                    initialRating: 0,
                                     minRating: 1,
                                     direction: Axis.horizontal,
                                     allowHalfRating: true,
@@ -263,14 +275,16 @@ class _SettingsState extends State<Settings> {
                                       Icons.star,
                                       color: Colors.amber,
                                     ),
-                                    onRatingUpdate: (rating) {},
+                                    onRatingUpdate: (rating) {
+                                      third = rating;
+                                    },
                                   ),
                                   const SizedBox(
                                     height: 20,
                                   ),
                                   const Text("Would you recommend this app?"),
                                   RatingBar.builder(
-                                    initialRating: 5,
+                                    initialRating: 0,
                                     minRating: 1,
                                     direction: Axis.horizontal,
                                     allowHalfRating: true,
@@ -281,7 +295,9 @@ class _SettingsState extends State<Settings> {
                                       Icons.star,
                                       color: Colors.amber,
                                     ),
-                                    onRatingUpdate: (rating) {},
+                                    onRatingUpdate: (rating) {
+                                      fourth = rating;
+                                    },
                                   ),
                                   const SizedBox(
                                     height: 20,
@@ -289,7 +305,7 @@ class _SettingsState extends State<Settings> {
                                   const Text(
                                       "Overall, how would you rate this app"),
                                   RatingBar.builder(
-                                    initialRating: 5,
+                                    initialRating: 0,
                                     minRating: 1,
                                     direction: Axis.horizontal,
                                     allowHalfRating: true,
@@ -300,17 +316,29 @@ class _SettingsState extends State<Settings> {
                                       Icons.star,
                                       color: Colors.amber,
                                     ),
-                                    onRatingUpdate: (rating) {},
+                                    onRatingUpdate: (rating) {
+                                      fifth = rating;
+                                    },
                                   ),
                                 ],
                               ),
                             ),
                             ElevatedButton(
-                              onPressed: () {
+                              onPressed: () async {
                                 setState(() {
                                   _isOpen4 = !_isOpen4;
                                 });
-                                Navigator.of(context).pop();
+
+                                bool isSent = await Service().sendRate(context,
+                                    first, second, third, fourth, fifth);
+                                if (isSent) {
+                                  Navigator.of(context).pop();
+                                  first = 0.0;
+                                  second = 0.0;
+                                  third = 0.0;
+                                  fourth = 0.0;
+                                  fifth = 0.0;
+                                }
                               },
                               child: const Text("Send"),
                             )
@@ -335,39 +363,69 @@ class _SettingsState extends State<Settings> {
                       borderRadius: BorderRadius.circular(25)),
                   child: Container(
                       height: 300,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          const Text(
-                            "Com Tool",
-                            style: TextStyle(
-                                fontSize: 25, fontWeight: FontWeight.bold),
-                          ),
-                          Image.asset(
-                            "assets/images/appicon.png",
-                            height: 100,
-                          ),
-                          Text(
-                            "Com Tool is a Firebase based chat application that can communicate using internet connection or bluetooth nearby location",
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.normal,
-                                color: Colors.black.withOpacity(0.8)),
-                            textAlign: TextAlign.center,
-                          ),
-                          ElevatedButton(
-                            onPressed: () {
-                              setState(() {
-                                _isOpen4 = !_isOpen4;
-                              });
-                              Navigator.of(context).pop();
-                            },
-                            child: const Text("Close"),
-                          )
-                        ],
+                      child: SingleChildScrollView(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            const Text(
+                              "Com Tool",
+                              style: TextStyle(
+                                  fontSize: 25, fontWeight: FontWeight.bold),
+                            ),
+                            const SizedBox(
+                              height: 10.0,
+                            ),
+                            Image.asset(
+                              "assets/images/appicon.png",
+                              height: 100,
+                            ),
+                            const SizedBox(
+                              height: 10.0,
+                            ),
+                            Text(
+                              "Com Tool is a Firebase based chat application that can communicate using internet connection or bluetooth nearby location",
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.normal,
+                                  color: Colors.black.withOpacity(0.8)),
+                              textAlign: TextAlign.center,
+                            ),
+                            const SizedBox(
+                              height: 10.0,
+                            ),
+                            Text(
+                              "Our Team",
+                              style: TextStyle(
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black.withOpacity(0.8)),
+                              textAlign: TextAlign.center,
+                            ),
+                            const SizedBox(
+                              height: 5.0,
+                            ),
+                            Text(
+                              "• Tony Geara (Client)\n• Ryan Leblanc (Developer)\n• Urban Rwuhiriro (Developer)\n• Vraj Patel (Developer)\n• Prince Felix (Developer)",
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.normal,
+                                  color: Colors.black.withOpacity(0.8)),
+                              textAlign: TextAlign.left,
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                setState(() {
+                                  _isOpen4 = !_isOpen4;
+                                });
+                                Navigator.of(context).pop();
+                              },
+                              child: const Text("Close"),
+                            )
+                          ],
+                        ),
                       )),
                 );
               })
@@ -447,14 +505,20 @@ class _SettingsState extends State<Settings> {
                                 ),
                               ),
                               ElevatedButton(
-                                onPressed: () {
+                                onPressed: () async {
                                   setState(() {
                                     _isOpen3 = !_isOpen3;
                                   });
 
-                                  sendEmail(context);
+                                  //sendEmail(context);
+                                  var isSent = await Service().sendEmail(
+                                      context,
+                                      _firstnameController.text,
+                                      _lastnameController.text,
+                                      _subjectController.text,
+                                      _messageController.text);
 
-                                  if (platformResponse == 'success') {
+                                  if (isSent == true) {
                                     _firstnameController.clear();
                                     _lastnameController.clear();
                                     _messageController.clear();

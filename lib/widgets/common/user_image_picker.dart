@@ -30,7 +30,7 @@ class _UserProfileState extends State<UserProfile> {
   String? imageUrl;
   late bool isSet = false;
   String defaultProfile =
-      "https://firebasestorage.googleapis.com/v0/b/chat-app---eng4003-37561.appspot.com/o/images%2FdefaultProfilePicture.png?alt=media&token=b398791c-2351-45c5-a850-ebaaccd11c48";
+      "https://firebasestorage.googleapis.com/v0/b/chat-app---eng4003-37561.appspot.com/o/images%2FdefaultProfilePicture.png?alt=media&token=6b2d1c22-3de0-4a3a-a1ec-5ed1224604de";
 
   @override
   Widget build(BuildContext context) {

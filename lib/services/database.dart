@@ -121,20 +121,6 @@ class Service {
     }
   }
 
-  // Future<UserModel> userInfo(String uid) async{
-  //   UserModel user = UserModel();
-
-  //   try {
-  //     DocumentSnapshot _documentSnapshot = await _firestore.collection("onlineusers").doc(uid).get();
-  //     //user = UserModel.fromDocumentSnapshot(doc: _documentSnapshot);
-  //     return user;
-
-  //   } catch (e){
-  //   }
-
-  //   return user;
-  // }
-
   void showErrorMessage(ctx, outputMessage) {
     ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(
       content: Text(outputMessage),
@@ -182,26 +168,78 @@ class Service {
             .update({'status': status});
   }
 
-  Future<bool> updatePassword(
-      ctx, currentPass, newPass, bool isEmailUser) async {
-    final user = await FirebaseAuth.instance.currentUser;
-    var isSuccess = false;
-    final credential = EmailAuthProvider.credential(
-        email: user!.email.toString(), password: currentPass);
+  Future<bool> sendEmail(ctx, firstName, lastName, subject, concerns) async {
+    try {
+      await _firestore
+          .collection('usersconcerns')
+          .doc(_auth.currentUser?.uid)
+          .set({
+        'firstname': firstName,
+        'lastname': lastName,
+        'subject': subject,
+        'concerns': concerns,
+        'resolved': 'false'
+      });
+      return true;
+    } on FirebaseException catch (pe) {
+      authOk = false;
+      if (pe.message != null) {
+        outputMessage = pe.message!;
+      }
 
-    user.reauthenticateWithCredential(credential).then((value) => {
-          user
-              .updatePassword(newPass)
-              .then((_) => {isSuccess = true})
-              .catchError((e) {
-            isSuccess = false;
-          })
+      showErrorMessage(ctx, outputMessage);
+      return false;
+    } catch (e) {
+      showErrorMessage(ctx, e);
+      return false;
+    }
+  }
+
+  Future<bool> sendRate(ctx, first, second, third, fourth, fifth) async {
+    try {
+      await _firestore
+          .collection('appratings')
+          .doc(_auth.currentUser?.uid)
+          .set({
+        'Was the app Responsive': first,
+        'How well was messages online': second,
+        'How well was messages offline': third,
+        'Would you recommend this app?': fourth,
+        'Overall Rate': fifth,
+      });
+      return true;
+    } on FirebaseException catch (pe) {
+      authOk = false;
+      if (pe.message != null) {
+        outputMessage = pe.message!;
+      }
+
+      showErrorMessage(ctx, outputMessage);
+      return false;
+    } catch (e) {
+      showErrorMessage(ctx, e);
+      return false;
+    }
+  }
+
+  Future<bool> changePassword(currentPass, newPass) async {
+    try {
+      final thisUser = FirebaseAuth.instance.currentUser;
+      final credential = EmailAuthProvider.credential(
+        email: thisUser!.email as String,
+        password: currentPass,
+      );
+
+      thisUser.reauthenticateWithCredential(credential).then((value) {
+        thisUser.updatePassword(newPass).then((_) {
+          return true;
+        }).catchError((e) {
+          return false;
         });
-
-    return isSuccess;
+      });
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 }
-
-// FirebaseFirestore
-//                                 .instance.collection("emailusers")
-//                                 .where('email', isEqualTo: currentUser)

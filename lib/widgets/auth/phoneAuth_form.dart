@@ -85,10 +85,7 @@ class _PhoneAuthFormState extends State<PhoneAuthForm> {
                 FadeInUp(
                   delay: const Duration(milliseconds: 500),
                   duration: const Duration(milliseconds: 500),
-                  child: ScreenLogo(
-                      screenWidth: screenWidth,
-                      screenHeight: screenHeight,
-                      isSetting: false),
+                  child: Image.asset("assets/images/logo.png"),
                 ),
                 const SizedBox(
                   height: 10,
@@ -353,10 +350,7 @@ class _PhoneAuthFormState extends State<PhoneAuthForm> {
             padding: const EdgeInsets.all(5.0),
             child: Column(
               children: [
-                ScreenLogo(
-                    screenWidth: screenWidth,
-                    screenHeight: screenHeight,
-                    isSetting: false),
+                Image.asset("assets/images/logo.png"),
                 const Text(
                   "VERIFICATION",
                   style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),

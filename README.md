@@ -11,7 +11,6 @@ It consist of group of 4 with each designated task throughout the production of 
 
 ### Team
 
-- Tony Geara (Client)
 - Ryan Leblanc
 - Urbain Rwuhiriro
 - Vraj Patel

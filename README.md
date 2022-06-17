@@ -65,3 +65,5 @@ Additional Resource - https://dartpad.dev/?id=fdd369962f4ff6700a83c8a540fd6c4c
   - Presentation Slides
   - ChatApp_Demo.mp4
 
+### Application Design
+  ![Stacker-Preview](https://github.com/PrinceAFelix/Flutter-Chat-Application/blob/main/extras/Application-Design.png)
